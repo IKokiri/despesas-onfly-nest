@@ -11,27 +11,40 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {}
+  ) { }
 
+  create(createUserDto: CreateUserDto): boolean {
+    try {
+      const user = this.usersRepository.save(createUserDto)
+      if (user) return true
 
-  create(createUserDto: CreateUserDto) {
-    this.usersRepository.save(createUserDto)
-    return 'This action adds a new user';
+    } catch (error) {
+      return false
+    }
   }
 
   findAll() {
-    return `This action returns all users`;
+    try {
+      const user = this.usersRepository.find()
+      return user
+    } catch (error) {
+      return false
+    }
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    try {
+      return this.usersRepository.findOneBy({ id });
+    } catch (error) {
+      return false
+    }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return this.usersRepository.update(id, updateUserDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.usersRepository.delete(id);
   }
 }
