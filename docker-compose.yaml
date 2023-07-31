@@ -1,0 +1,25 @@
+version: '3.8' 
+
+services:
+  nest-app:
+    build: .  
+    ports:
+      - "3000:3000" 
+    volumes:
+      - .:/app     
+    depends_on:
+      - mysql-db   
+  mysql-db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 0nflyd35p3545@PWD
+      MYSQL_DATABASE: despesas
+      MYSQL_USER: despeasas        
+      MYSQL_PASSWORD: 0nflyd35p3545@PWD
+    volumes:
+      - mysql-data:/var/lib/mysql
+volumes:
+  mysql-data:
