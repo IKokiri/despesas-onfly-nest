@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, BadRequestException } from '@nestjs/common';
 import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
@@ -16,7 +16,10 @@ export class ExpensesController {
   @Post()
   async create(@Body() createExpenseDto: CreateExpenseDto) {
     const expenseResult = await this.expensesService.create(createExpenseDto);
-    if(!expenseResult) return false
+    console.log(expenseResult)
+
+    if (expenseResult.status === false) throw new BadRequestException(expenseResult?.message)
+    
     this.emailService.sendExpenseAdded(expenseResult)
     return expenseResult
   }

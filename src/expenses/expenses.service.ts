@@ -17,23 +17,27 @@ export class ExpensesService {
   ) { }
 
 
-  async create(createExpenseDto: CreateExpenseDto) {
+  async create(createExpenseDto: CreateExpenseDto): Promise<any> {
     const { userId, amount, description, expenseDate } = createExpenseDto
-    const user = await this.userRepository.findOneBy({ id: userId });
 
-    const expense = new Expense()
-
-    expense.user = user
-    expense.amount = amount
-    expense.description = description
-    expense.expenseDate = expenseDate
-    
     try {
+      const user = await this.userRepository.findOneBy({ id: userId });
+
+      if (!user) return { status: false, message: "User does not exist!" }
+
+      const expense = new Expense()
+
+      expense.user = user
+      expense.amount = amount
+      expense.description = description
+      expense.expenseDate = expenseDate
+
       const expenseResult = this.expenseRepository.save(expense)
-      if (expenseResult) return expenseResult
+      
+      return expenseResult
 
     } catch (error) {
-      return false
+      return { status: false, message: "Erro to add expense!" }
     }
   }
 
