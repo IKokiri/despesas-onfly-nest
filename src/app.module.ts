@@ -8,6 +8,7 @@ import { User } from './users/entities/user.entity';
 import { ExpensesModule } from './expenses/expenses.module';
 import { Expense } from './expenses/entities/expense.entity';
 import { MailModule } from './mail/mail.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { MailModule } from './mail/mail.module';
       synchronize: true,
     }),
     ExpensesModule,
-    MailModule
+    MailModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

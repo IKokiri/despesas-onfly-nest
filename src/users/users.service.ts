@@ -40,6 +40,14 @@ export class UsersService {
     }
   }
 
+  findOneByEmail(email: string) {
+    try {
+      return this.usersRepository.findOneBy({ email });
+    } catch (error) {
+      return false
+    }
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return this.usersRepository.update(id, updateUserDto);
   }
