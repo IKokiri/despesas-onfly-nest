@@ -30,7 +30,7 @@ export class ExpensesService {
     
     try {
       const expenseResult = this.expenseRepository.save(expense)
-      if (expenseResult) return true
+      if (expenseResult) return expenseResult
 
     } catch (error) {
       return false

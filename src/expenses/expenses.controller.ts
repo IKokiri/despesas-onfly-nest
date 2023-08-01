@@ -12,10 +12,11 @@ export class ExpensesController {
   ) { }
 
   @Post()
-  create(@Body() createExpenseDto: CreateExpenseDto) {
-    this.emailService.sendUserConfirmation()
-    return this.expensesService.create(createExpenseDto);
-
+  async create(@Body() createExpenseDto: CreateExpenseDto) {
+    const expenseResult = await this.expensesService.create(createExpenseDto);
+    if(!expenseResult) return false
+    this.emailService.sendExpenseAdded(expenseResult)
+    return expenseResult
   }
 
   @Get()
