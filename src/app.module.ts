@@ -7,9 +7,11 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './users/entities/user.entity';
 import { ExpensesModule } from './expenses/expenses.module';
 import { Expense } from './expenses/entities/expense.entity';
+import { MailModule } from './mail/mail.module';
 
 @Module({
-  imports: [UsersModule,
+  imports: [
+    UsersModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -24,7 +26,9 @@ import { Expense } from './expenses/entities/expense.entity';
       ],
       synchronize: true,
     }),
-    ExpensesModule,],
+    ExpensesModule,
+    MailModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
