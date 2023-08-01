@@ -33,7 +33,7 @@ export class ExpensesService {
       expense.expenseDate = expenseDate
 
       const expenseResult = this.expenseRepository.save(expense)
-      
+
       return expenseResult
 
     } catch (error) {
@@ -50,19 +50,42 @@ export class ExpensesService {
     }
   }
 
-  findOne(id: number) {
+  async findAllByUser(userId: number) {
     try {
-      return this.expenseRepository.findOneBy({ id });
+      const user = await this.userRepository.findOneBy({ id: userId });
+      const expense = this.expenseRepository.findBy({
+        user: user
+      })
+      return expense
     } catch (error) {
       return false
     }
   }
 
-  update(id: number, updateExpenseDto: UpdateExpenseDto) {
-    return this.expenseRepository.update(id, updateExpenseDto);
+  async findOne(id: number, userId: number) {
+    try {
+      const user = await this.userRepository.findOneBy({ id: userId });
+      return this.expenseRepository.findOneBy({ id, user: user });
+    } catch (error) {
+      return false
+    }
   }
 
-  remove(id: number) {
-    return this.expenseRepository.delete(id);
+  async update(id: number, updateExpenseDto: UpdateExpenseDto, userId: number) {
+
+    const user = await this.userRepository.findOneBy({ id: userId });
+    return this.expenseRepository.update({
+      id: id,
+      user: user
+    }, updateExpenseDto);
+  }
+
+  async remove(id: number, userId: number) {
+
+    const user = await this.userRepository.findOneBy({ id: userId });
+    return this.expenseRepository.delete({
+      id: id,
+      user: user
+    });
   }
 }

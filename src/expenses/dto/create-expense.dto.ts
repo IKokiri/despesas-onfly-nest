@@ -9,8 +9,6 @@ export class CreateExpenseDto {
     @IsNotDateFuture()
     expenseDate: Date
 
-    @IsInt()
-    @IsNotEmpty()
     userId: number
 
     @IsNumber()
