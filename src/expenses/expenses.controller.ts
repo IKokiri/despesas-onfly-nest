@@ -6,7 +6,10 @@ import { MailService } from 'src/mail/mail.service';
 
 @Controller('expenses')
 export class ExpensesController {
-  constructor(private readonly expensesService: ExpensesService,private readonly emailService: MailService,) {}
+  constructor(
+    private readonly expensesService: ExpensesService,
+    private readonly emailService: MailService
+  ) { }
 
   @Post()
   create(@Body() createExpenseDto: CreateExpenseDto) {

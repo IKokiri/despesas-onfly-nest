@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Expense {
@@ -11,9 +12,9 @@ export class Expense {
   @Column({ type: 'date' })
   expenseDate: Date;
 
-  @Column()
-  userId: number;
-
   @Column('float')
   amount: number;
+
+  @ManyToOne(() => User, (user) => user.expenses)
+  user: User
 }

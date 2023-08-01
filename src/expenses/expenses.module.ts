@@ -5,12 +5,13 @@ import { Expense } from './entities/expense.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailService } from 'src/mail/mail.service';
 import { ConfigModule } from '@nestjs/config';
+import { User } from 'src/users/entities/user.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Expense]),
-    ConfigModule.forRoot(),
+    TypeOrmModule.forFeature([Expense, User]),
+    ConfigModule.forRoot()
   ],
   controllers: [ExpensesController],
   providers: [ExpensesService, MailService]
