@@ -36,23 +36,30 @@ export class ExpensesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Request() request: any) {
+  async findOne(@Param('id') id: string, @Request() request: any) {
     const { sub: userId } = request.user
     if (!userId) throw new ForbiddenException('Forbidden')
-    return this.expensesService.findOne(+id, userId);
+    const result = await this.expensesService.findOne(+id, userId);
+    if (!result) throw new BadRequestException('Expense does not exists')
+    return result
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto, @Request() request: any) {
+  async update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto, @Request() request: any) {
     const { sub: userId } = request.user
     if (!userId) throw new ForbiddenException('Forbidden')
-    return this.expensesService.update(+id, updateExpenseDto, userId);
+    const result = await this.expensesService.update(+id, updateExpenseDto, userId);
+    if (!result.affected) throw new BadRequestException('Expense does not exists')
+    return result
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @Request() request: any) {
+  async remove(@Param('id') id: string, @Request() request: any) {
     const { sub: userId } = request.user
     if (!userId) throw new ForbiddenException('Forbidden')
-    return this.expensesService.remove(+id, userId);
+    const result = await this.expensesService.remove(+id, userId);
+    if (!result.affected) throw new BadRequestException('Expense does not exists')
+    return result
+
   }
 }
