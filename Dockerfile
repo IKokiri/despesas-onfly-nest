@@ -17,4 +17,4 @@ COPY . /app/
 EXPOSE 3000
 
 # Comando para executar a aplicação Nest.js em modo de produção
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:dev"]
