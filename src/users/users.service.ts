@@ -13,12 +13,15 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) { }
 
-  create(createUserDto: CreateUserDto): boolean {
+  async create(createUserDto: CreateUserDto) {
     try {
-      const user = this.usersRepository.save(createUserDto)
-      if (user) return true
+      const user = await this.usersRepository.save(createUserDto)
+      return {status: true, message: "Created", code: "ok"}
 
     } catch (error) {
+      const currentError = error.code
+      
+      if(currentError == 'ER_DUP_ENTRY') return {status: false, code: currentError, message: "Already exists"}
       return false
     }
   }
